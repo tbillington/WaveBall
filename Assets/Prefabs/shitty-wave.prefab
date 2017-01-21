@@ -113,6 +113,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  lowestPointY: -26.05
   waveSize: 1
   currentSpeed: 0
   detatched: 0

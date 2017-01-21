@@ -11,7 +11,9 @@ public class Wave : MonoBehaviour {
   [Range (0, 50)]
   public float waveFast = 5;
 
-  public AnimationCurve speedCurve;
+  public AnimationCurve speedCurve = AnimationCurve.EaseInOut (0, 0, 1, 1);
+
+  public float lowestPointY = -26.05f;
 
   [Header ("Read Only")]
 
