@@ -5,8 +5,8 @@ using System;
 
 public enum Player {
   None,
-  One,
-  Two}
+  Pink,
+  Blue}
 ;
 
 public class PlayerController : MonoBehaviour {
@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
         t.Translate (0, floorY - t.position.y, 0);
       rb.velocity = new Vector2 (rb.velocity.x, Mathf.Max (rb.velocity.y, 0f));
       if (GetComponentInChildren <Wave> () == null && waveCooldownRemaining <= 0) {
-        GameObject newWave = Instantiate<GameObject> (waveFab, t.position, Quaternion.identity, t);
+        GameObject newWave = Instantiate<GameObject> (waveFab, new Vector3 (t.position.x, -23.515f, 0), Quaternion.identity, t);
       }
     }
 
@@ -120,6 +120,16 @@ public class PlayerController : MonoBehaviour {
       Debug.DrawRay (t.position, directionOfBall * kickRange, distanceToBall >= kickRange ? Color.green : Color.red, 0.2f);
       if (distanceToBall < kickRange && GetComponentInChildren <Wave> () == null) {
         ball.GetComponent<Rigidbody2D> ().AddForce (directionOfBall * kickStrength);
+      }
+    }
+  }
+
+  public void KnockOutOfWave () {
+    if (t.position.y > floorY) {
+      Wave wave = GetComponentInChildren<Wave> ();
+      if (wave != null) {
+        wave.Detatch (player);
+        waveCooldownRemaining = waveCooldown;
       }
     }
   }

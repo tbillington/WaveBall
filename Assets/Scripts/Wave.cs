@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Diagnostics;
 
 public class Wave : MonoBehaviour {
 
@@ -33,14 +34,25 @@ public class Wave : MonoBehaviour {
   void Update () {
     if (detatched) {
       currentSpeed = Mathf.Lerp (waveSlow, waveFast, speedCurve.Evaluate (1 - waveSize)) * Time.deltaTime;
-      t.Translate (currentSpeed * (player == Player.One ? 1 : -1), -Time.deltaTime * 0.25f, 0);
+      t.Translate (currentSpeed * (player == Player.Pink ? 1 : -1), -Time.deltaTime * 0.25f, 0);
       waveSize -= Time.deltaTime * 0.5f;
+
+      if (t.position.y < lowestPointY) {
+        Destroy (gameObject);
+      }
     }
   }
 
-  public void Detatch (Player player) {
-    t.parent = null;
+  public void Detatch (Player p) {
+    GetComponent <Transform> ().parent = null;
     detatched = true;
-    player = player;
+    player = p;
+  }
+
+  void OnTriggerEnter2D (Collider2D other) {
+    Debug.Log (other.tag);
+    if (other.CompareTag ("Player") && other.gameObject != t.parent.gameObject) {
+      other.gameObject.GetComponent <PlayerController> ().KnockOutOfWave ();
+    }
   }
 }
