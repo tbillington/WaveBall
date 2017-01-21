@@ -43,7 +43,7 @@ public class Wave : MonoBehaviour {
     }
   }
 
-  public void Detatch (Player p) {
+  public void Detatch (Player p, Vector2 initialVelocity) {
     GetComponent <Transform> ().parent = null;
     detatched = true;
     player = p;

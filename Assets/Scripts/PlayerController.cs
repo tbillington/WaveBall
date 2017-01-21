@@ -23,14 +23,16 @@ public class PlayerController : MonoBehaviour {
   public KeyCode kickKey;
 
   [Header ("Config")]
-  [Range (0, 5)]
-  public float horizontalSpeed = 5.0f;
+  [Range (0, 30)]
+  public float horizontalSpeedGround = 5.0f;
+  [Range (0, 30)]
+  public float horizontalSpeedAir = 10.0f;
   [Range (0, 5)]
   public float verticalSpeed = 5.0f;
 
   [Range (0, 50)]
   public float jumpStrength = 20f;
-  [Range (0, 50)]
+  [Range (0, 500)]
   public float kickStrength = 25f;
   [Range (0, 5)]
   public float kickRange = 1.5f;
@@ -41,9 +43,11 @@ public class PlayerController : MonoBehaviour {
   [Range (0, 5)]
   public float waveCooldown = 1;
 
-  public float floorY = -3;
+  public float floorY = -18.7f;
 
-  public float maxJumpY = 0;
+  public float airSpeedHeightY = -8.2f;
+  public float groundSpeedHeightY = -18.7f;
+  public float maxJumpY = -11.5f;
 
   [Header ("Read Only")]
   public bool finishedRising = false;
@@ -52,13 +56,21 @@ public class PlayerController : MonoBehaviour {
   private Rigidbody2D rb;
   private Transform t;
 
+  public float horizontalSpeed {
+    get {
+      return Mathf.Lerp (horizontalSpeedGround, horizontalSpeedAir, Mathf.LerpUnclamped (groundSpeedHeightY, airSpeedHeightY, t.position.y));
+    }
+  }
+
+  public float hs;
+
   void Start () {
     rb = GetComponent<Rigidbody2D> ();
     t = GetComponent<Transform> ();
   }
 
   void Update () {
-
+    hs = horizontalSpeed;
     // Left + Right input
     if (Input.GetKey (leftKey)) {
       rb.AddForce (Vector2.left * horizontalSpeed);
@@ -73,7 +85,7 @@ public class PlayerController : MonoBehaviour {
       rb.AddForce (Vector2.down * verticalSpeed);
     }
 
-    //  Falling
+    // Falling
     if (t.position.y > floorY) {
       if (!Input.GetKey (upKey) && !finishedRising) {
         finishedRising = true;
@@ -88,7 +100,7 @@ public class PlayerController : MonoBehaviour {
         t.Translate (0, floorY - t.position.y, 0);
       rb.velocity = new Vector2 (rb.velocity.x, Mathf.Max (rb.velocity.y, 0f));
       if (GetComponentInChildren <Wave> () == null && waveCooldownRemaining <= 0) {
-        GameObject newWave = Instantiate<GameObject> (waveFab, new Vector3 (t.position.x, -23.515f, 0), Quaternion.identity, t);
+        Instantiate<GameObject> (waveFab, new Vector3 (t.position.x, -23.515f, 0), Quaternion.identity, t);
       }
     }
 
@@ -100,7 +112,7 @@ public class PlayerController : MonoBehaviour {
     if (Input.GetKeyDown (jumpOutKey)) {
       Wave wave = GetComponentInChildren<Wave> ();
       if (wave != null) {
-        wave.Detatch (player);
+        wave.Detatch (player, rb.velocity);
         waveCooldownRemaining = waveCooldown;
         rb.AddForce (Vector2.up * jumpStrength);
       }
@@ -118,7 +130,8 @@ public class PlayerController : MonoBehaviour {
       float distanceToBall = Vector2.Distance (t.position, ball.transform.position);
 
       Debug.DrawRay (t.position, directionOfBall * kickRange, distanceToBall >= kickRange ? Color.green : Color.red, 0.2f);
-      if (distanceToBall < kickRange && GetComponentInChildren <Wave> () == null) {
+      if (distanceToBall < kickRange) {
+        Debug.Log ("Kicking ball");
         ball.GetComponent<Rigidbody2D> ().AddForce (directionOfBall * kickStrength);
       }
     }
@@ -128,9 +141,13 @@ public class PlayerController : MonoBehaviour {
     if (t.position.y > floorY) {
       Wave wave = GetComponentInChildren<Wave> ();
       if (wave != null) {
-        wave.Detatch (player);
+        wave.Detatch (player, new Vector2 ());
         waveCooldownRemaining = waveCooldown;
       }
     }
+  }
+
+  void OnTriggerEnter2D (Collider2D other) {
+    Debug.Log (other.tag);
   }
 }

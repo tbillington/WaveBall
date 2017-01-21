@@ -458,8 +458,9 @@ PlayerSettings:
   XboxOneAllowedProductIds: []
   XboxOnePersistentLocalStorageSize: 0
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
-  cloudProjectId: 
-  projectName: 
-  organizationId: 
+  cloudServicesEnabled:
+    UNet: 1
+  cloudProjectId: 32b8670a-7b00-4b66-851e-f5d9870f417f
+  projectName: WaveBallGGJ2017
+  organizationId: pudgepacket
   cloudEnabled: 0

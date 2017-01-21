@@ -847,17 +847,21 @@ MonoBehaviour:
   downKey: 115
   jumpOutKey: 113
   kickKey: 101
-  horizontalSpeed: 3
+  horizontalSpeedGround: 10
+  horizontalSpeedAir: 1.1
   verticalSpeed: 2.5
   jumpStrength: 20
-  kickStrength: 25
-  kickRange: 1.5
+  kickStrength: 100
+  kickRange: 3
   fallSpeed: 2
   waveCooldown: 1
   floorY: -18.7
-  maxJumpY: 0
+  airSpeedHeightY: -8.2
+  groundSpeedHeightY: -18.7
+  maxJumpY: -11.5
   finishedRising: 0
   waveCooldownRemaining: 0
+  hs: 0
 --- !u!212 &301331955
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1793,17 +1797,21 @@ MonoBehaviour:
   downKey: 274
   jumpOutKey: 127
   kickKey: 281
-  horizontalSpeed: 3
+  horizontalSpeedGround: 5
+  horizontalSpeedAir: 10
   verticalSpeed: 2.5
   jumpStrength: 20
-  kickStrength: 25
-  kickRange: 1.5
+  kickStrength: 100
+  kickRange: 3
   fallSpeed: 2
   waveCooldown: 1
   floorY: -18.7
-  maxJumpY: 0
+  airSpeedHeightY: -8.2
+  groundSpeedHeightY: -18.7
+  maxJumpY: -11.5
   finishedRising: 0
   waveCooldownRemaining: 0
+  hs: 0
 --- !u!212 &997769986
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2118,11 +2126,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.5
-  m_LinearDrag: 0.2
+  m_Mass: 0.05
+  m_LinearDrag: 0.02
   m_AngularDrag: 0.05
-  m_GravityScale: 0.2
-  m_Material: {fileID: 0}
+  m_GravityScale: 0.8
+  m_Material: {fileID: 6200000, guid: 8be6341e1ce3f4cec9902bc34f72d20a, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
