@@ -12,10 +12,14 @@ public class Goal : MonoBehaviour {
 
   }
 
+  void Score (Collider2D other) {
+    other.transform.position = new Vector2 ();
+    other.GetComponent<Rigidbody2D> ().velocity = new Vector2 ();
+  }
+
   void OnTriggerEnter2D (Collider2D other) {
     if (other.CompareTag ("Ball")) {
-      other.transform.position = new Vector2 ();
-      other.GetComponent<Rigidbody2D> ().velocity = new Vector2 ();
+      Score (other);
     }
   }
 }

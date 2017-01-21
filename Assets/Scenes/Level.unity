@@ -283,7 +283,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.1
-  m_LinearDrag: 0.7
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -317,18 +317,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveFab: {fileID: 1770836170063358, guid: fcda73423059d441eae91d926642103c, type: 2}
+  player: 0
   leftKey: 97
   rightKey: 100
   upKey: 119
   downKey: 115
-  jumpOutKey: 101
-  horizontalSpeed: 0.5
-  verticalSpeed: 0.5
+  jumpOutKey: 113
+  kickKey: 101
+  horizontalSpeed: 0.8
+  verticalSpeed: 0.8
+  jumpStrength: 20
+  kickStrength: 25
+  kickRange: 1.5
   fallSpeed: 0.25
+  waveCooldown: 1
   floorY: -3
   maxJumpY: 0
   finishedRising: 0
-  waveCooldown: 1
   waveCooldownRemaining: 0
 --- !u!212 &301331955
 SpriteRenderer:
@@ -603,7 +608,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.1
-  m_LinearDrag: 2.5
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -637,18 +642,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveFab: {fileID: 1770836170063358, guid: fcda73423059d441eae91d926642103c, type: 2}
+  player: 1
   leftKey: 276
   rightKey: 275
   upKey: 273
   downKey: 274
-  jumpOutKey: 0
-  horizontalSpeed: 5
-  verticalSpeed: 5
-  fallSpeed: 2
+  jumpOutKey: 127
+  kickKey: 281
+  horizontalSpeed: 0.8
+  verticalSpeed: 0.8
+  jumpStrength: 20
+  kickStrength: 25
+  kickRange: 1.5
+  fallSpeed: 0.25
+  waveCooldown: 1
   floorY: -3
   maxJumpY: 0
   finishedRising: 0
-  waveCooldown: 1
   waveCooldownRemaining: 0
 --- !u!212 &997769986
 SpriteRenderer:
@@ -932,6 +942,20 @@ Prefab:
     - target: {fileID: 4361313519220604, guid: fcda73423059d441eae91d926642103c, type: 2}
       propertyPath: m_LocalScale.y
       value: 4.815643
+      objectReference: {fileID: 0}
+    - target: {fileID: 1770836170063358, guid: fcda73423059d441eae91d926642103c, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 60848391355190104, guid: fcda73423059d441eae91d926642103c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212345496387894990, guid: fcda73423059d441eae91d926642103c,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fcda73423059d441eae91d926642103c, type: 2}
