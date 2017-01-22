@@ -30,7 +30,7 @@ public class Countdown : MonoBehaviour {
     if (!active) {
       return;
     }
-    timeRemaining -= Time.deltaTime;
+    timeRemaining -= Time.deltaTime * 3;
 
     if (timeRemaining <= 0.1) {
       active = false;

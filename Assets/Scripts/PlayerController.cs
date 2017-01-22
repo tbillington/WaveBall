@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Security.Cryptography;
 
 public enum Player {
   None,
@@ -12,6 +13,7 @@ public enum Player {
 public class PlayerController : MonoBehaviour {
 
   public GameObject waveFab;
+  public AudioClip[] kickSounds;
 
   [Header ("Controls")]
   public Player player;
@@ -48,6 +50,9 @@ public class PlayerController : MonoBehaviour {
   public float airSpeedHeightY = -8.2f;
   public float groundSpeedHeightY = -18.7f;
   public float maxJumpY = -11.5f;
+
+  public float maxLeft = -32.83f;
+  public float maxRight = 32.83f;
 
   [Header ("Read Only")]
   public bool finishedRising = false;
@@ -128,12 +133,24 @@ public class PlayerController : MonoBehaviour {
       Vector2 directionOfBall = Vector2.ClampMagnitude (ball.transform.position - t.position, 1);
 
       float distanceToBall = Vector2.Distance (t.position, ball.transform.position);
-      GetComponentInChildren<Animator> ().SetTrigger ("Kick");
+
+      if (GetComponentInChildren<Animator> () != null)
+        GetComponentInChildren<Animator> ().SetTrigger ("Kick");
 
       Debug.DrawRay (t.position, directionOfBall * kickRange, distanceToBall >= kickRange ? Color.green : Color.red, 0.2f);
       if (distanceToBall < kickRange) {
+        GetComponent<AudioSource> ().PlayOneShot (kickSounds [UnityEngine.Random.Range (0, kickSounds.Length - 1)]);
         ball.GetComponent<Rigidbody2D> ().AddForce (directionOfBall * kickStrength);
       }
+    }
+
+    // Max left and right pos
+    if (t.position.x <= maxLeft) {
+      rb.velocity = new Vector2 (Mathf.Max (0, rb.velocity.x), rb.velocity.y);
+      t.position = new Vector2 (Mathf.Max (maxLeft, t.position.x), t.position.y);
+    } else if (t.position.x >= maxRight) {
+      rb.velocity = new Vector2 (Mathf.Min (0, rb.velocity.x), rb.velocity.y);
+      t.position = new Vector2 (Mathf.Min (maxRight, t.position.x), t.position.y);
     }
   }
 
@@ -148,6 +165,6 @@ public class PlayerController : MonoBehaviour {
   }
 
   void OnTriggerEnter2D (Collider2D other) {
-    Debug.Log (other.tag);
+    
   }
 }
