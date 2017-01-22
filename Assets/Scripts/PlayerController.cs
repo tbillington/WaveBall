@@ -128,10 +128,10 @@ public class PlayerController : MonoBehaviour {
       Vector2 directionOfBall = Vector2.ClampMagnitude (ball.transform.position - t.position, 1);
 
       float distanceToBall = Vector2.Distance (t.position, ball.transform.position);
+      GetComponentInChildren<Animator> ().SetTrigger ("Kick");
 
       Debug.DrawRay (t.position, directionOfBall * kickRange, distanceToBall >= kickRange ? Color.green : Color.red, 0.2f);
       if (distanceToBall < kickRange) {
-        Debug.Log ("Kicking ball");
         ball.GetComponent<Rigidbody2D> ().AddForce (directionOfBall * kickStrength);
       }
     }
